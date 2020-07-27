@@ -3,7 +3,7 @@ require "byebug"
 
 class KnightPathFinder
 
-    def self.valid_moves(pos)
+    def self.valid_moves(pos) #use class constant
         moves = []
         x = pos[0]
         y = pos[1]
@@ -28,7 +28,7 @@ class KnightPathFinder
 
     attr_reader :root_node
 
-    def new_move_positions(pos)
+    def new_move_positions(pos) #refactor
         possible = KnightPathFinder.valid_moves(pos)
         possible.reject! { |pos| @considered_pos.include?(pos) }
         @considered_pos += possible
@@ -47,13 +47,28 @@ class KnightPathFinder
             end
         end
     end
+
+    def find_path(end_pos)
+        final = root_node.dfs(end_pos)
+        trace_back(final, root_node)
+    end
+
+    def trace_back(end_node, start_node)
+        result = [end_node]
+        until result.include?(start_node)
+            result << (result.last).parent
+        end
+        result.reverse.map { |node| node.value }
+    end
 end
 
 if __FILE__ == $PROGRAM_NAME
-    test = KnightPathFinder.new([4,4])
+    test = KnightPathFinder.new([0,0])
 
     p test.build_move_tree
-    debugger
-    p test.root_node
+    # debugger
+    p test.find_path([5,4])
+    p test.find_path([7, 6])
+    p test.find_path([6, 2])
     
 end
