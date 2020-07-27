@@ -49,7 +49,7 @@ class KnightPathFinder
     end
 
     def find_path(end_pos)
-        final = root_node.dfs(end_pos)
+        final = root_node.bfs(end_pos)
         trace_back(final, root_node)
     end
 
@@ -69,6 +69,6 @@ if __FILE__ == $PROGRAM_NAME
     # debugger
     p test.find_path([5,4])
     p test.find_path([7, 6])
-    p test.find_path([6, 2])
+    p test.find_path([6, 2]) # => [[0, 0], [1, 2], [2, 0], [4, 1], [6, 2]]
     
 end
